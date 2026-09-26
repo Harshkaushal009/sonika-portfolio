@@ -1,0 +1,364 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ────────────────────────────────────────────────────────── */
+:root {
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'Inter', sans-serif;
+
+  --background: 201 100% 13%;
+  --foreground: 0 0% 100%;
+  --muted-foreground: 240 4% 66%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 4%;
+  --secondary: 0 0% 10%;
+  --muted: 0 0% 10%;
+  --accent: 0 0% 10%;
+  --border: 0 0% 18%;
+  --input: 0 0% 18%;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-muted: hsl(var(--muted));
+  --color-accent: hsl(var(--accent));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+}
+
+/* ─── Base Reset ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+}
+
+/* ─── Custom Luxury Cinematic Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.38);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+html, body {
+  height: 100%;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Colour utilities ──────────────────────────────────────────────────────── */
+.text-foreground       { color: hsl(var(--foreground)); }
+.text-muted-foreground { color: hsl(var(--muted-foreground)); }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GLASS PILL — for BUTTONS only (stays fully rounded)
+═══════════════════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  .glass-pill {
+    background:              rgba(255, 255, 255, 0.09)  !important;
+    backdrop-filter:         blur(14px) saturate(180%)  !important;
+    -webkit-backdrop-filter: blur(14px) saturate(180%)  !important;
+    border:                  none                       !important;
+    border-radius:           9999px                     !important;
+    box-shadow:
+      0 0 0 1px   rgba(255, 255, 255, 0.28),
+      0 0 0 2.5px rgba(255, 255, 255, 0.06),
+      inset 0  1.5px 1.5px rgba(255,255,255,0.32),
+      inset 0 -1px   1px   rgba(255,255,255,0.10),
+      0 6px 32px rgba(0, 0, 0, 0.22)
+      !important;
+    position: relative  !important;
+    overflow: hidden    !important;
+    color:    hsl(var(--foreground)) !important;
+    cursor:   pointer                !important;
+  }
+  .glass-pill::before {
+    content: '' !important; position: absolute !important; inset: 0 !important;
+    border-radius: inherit !important; padding: 1px !important;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 20%,
+      rgba(255,255,255,0) 45%, rgba(255,255,255,0) 55%,
+      rgba(255,255,255,0.18) 80%, rgba(255,255,255,0.55) 100%) !important;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+    -webkit-mask-composite: xor !important; mask-composite: exclude !important;
+    pointer-events: none !important;
+  }
+
+  /* Nav CTA */
+  .glass-pill-nav {
+    padding: 8px 20px !important; font-family: 'Inter', sans-serif !important;
+    font-size: 0.78rem !important; font-weight: 500 !important;
+    letter-spacing: 0.05em !important; display: inline-flex !important;
+    align-items: center !important; white-space: nowrap !important;
+    transition: transform 0.2s ease, filter 0.2s ease !important;
+    text-decoration: none !important;
+  }
+  .glass-pill-nav:hover { transform: scale(1.04) !important; filter: brightness(1.12) !important; }
+
+  /* Hero CTA */
+  .glass-pill-hero {
+    padding: 14px 52px !important; font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important; font-weight: 500 !important;
+    letter-spacing: 0.06em !important; display: inline-flex !important;
+    align-items: center !important; text-decoration: none !important;
+    transition: transform 0.2s ease, filter 0.2s ease !important;
+  }
+  .glass-pill-hero:hover { transform: scale(1.04) !important; filter: brightness(1.12) !important; }
+
+  /* Premium logo */
+  .logo-premium {
+    font-family: 'Instrument Serif', serif !important; font-size: 1.45rem !important;
+    font-weight: 400 !important; letter-spacing: 0.06em !important;
+    color: hsl(var(--foreground)) !important; text-decoration: none !important;
+    line-height: 1 !important; user-select: none !important;
+    text-shadow: 0 0 28px rgba(255,255,255,0.18) !important;
+  }
+
+  /* Responsive Mobile Menu Button */
+  .mobile-menu-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    font-size: 1.1rem !important;
+  }
+  @media (min-width: 768px) {
+    .mobile-menu-btn {
+      display: none !important;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GLASS CARD — for content cards (rounded rectangle, NOT pill)
+═══════════════════════════════════════════════════════════════════════════════ */
+.glass-card {
+  background:              rgba(255, 255, 255, 0.05);
+  backdrop-filter:         blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border:                  1px solid rgba(255, 255, 255, 0.10);
+  border-radius:           20px;
+  box-shadow:
+    inset 0  1px 1px rgba(255,255,255,0.12),
+    inset 0 -1px 1px rgba(255,255,255,0.04),
+    0 8px 32px rgba(0,0,0,0.28),
+    0 2px 8px  rgba(0,0,0,0.16);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform      0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow     0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color   0.35s ease,
+    background     0.35s ease;
+}
+
+/* Shimmer top-edge line */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.45) 30%,
+    rgba(255,255,255,0.70) 50%,
+    rgba(255,255,255,0.45) 70%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+/* Hover state */
+.glass-card:hover {
+  transform:    translateY(-8px) scale(1.015);
+  background:   rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 0  1px 1px rgba(255,255,255,0.20),
+    inset 0 -1px 1px rgba(255,255,255,0.06),
+    0 24px 64px rgba(0,0,0,0.40),
+    0  4px 16px rgba(0,0,0,0.24),
+    0  0  0 1px rgba(255,255,255,0.12);
+}
+
+/* ─── Fade-Rise Animations ──────────────────────────────────────────────────── */
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-rise         { animation: fade-rise 0.8s ease-out 0s   both; }
+.animate-fade-rise-delay   { animation: fade-rise 0.8s ease-out 0.2s both; }
+.animate-fade-rise-delay-2 { animation: fade-rise 0.8s ease-out 0.4s both; }
+
+/* ─── Typewriter Cursor Animation ───────────────────────────────────────────── */
+@keyframes cursor-blink {
+  0%, 40% {
+    opacity: 1;
+  }
+  50%, 90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 4px;
+  font-weight: 300;
+  color: hsl(var(--foreground));
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.7);
+  animation: cursor-blink 0.9s infinite ease-in-out;
+  user-select: none;
+  vertical-align: baseline;
+}
+
+/* ─── Scroll Reveal ──────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity   0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children inside a reveal container */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity   0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-stagger.is-visible > *:nth-child(1)  { opacity:1; transform:translateY(0); transition-delay: 0.05s; }
+.reveal-stagger.is-visible > *:nth-child(2)  { opacity:1; transform:translateY(0); transition-delay: 0.15s; }
+.reveal-stagger.is-visible > *:nth-child(3)  { opacity:1; transform:translateY(0); transition-delay: 0.25s; }
+.reveal-stagger.is-visible > *:nth-child(4)  { opacity:1; transform:translateY(0); transition-delay: 0.32s; }
+.reveal-stagger.is-visible > *:nth-child(5)  { opacity:1; transform:translateY(0); transition-delay: 0.39s; }
+.reveal-stagger.is-visible > *:nth-child(6)  { opacity:1; transform:translateY(0); transition-delay: 0.46s; }
+
+/* ─── Section Heading Utility ───────────────────────────────────────────────── */
+.section-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+.section-eyebrow::before,
+.section-eyebrow::after {
+  content: '';
+  height: 1px;
+  width: 40px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25));
+}
+.section-eyebrow::after {
+  background: linear-gradient(90deg, rgba(255,255,255,0.25), transparent);
+}
+
+/* ─── Tag pill (inside cards) ───────────────────────────────────────────────── */
+.tag-pill {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.67rem;
+  font-weight: 500;
+  padding: 4px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: hsl(var(--muted-foreground));
+  background: rgba(255,255,255,0.05);
+  letter-spacing: 0.03em;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.tag-pill:hover {
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.10);
+}
+
+/* ─── Divider line ──────────────────────────────────────────────────────────── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+  margin: 0 2rem;
+}
+
+/* ─── Number badge (for Work cards) ────────────────────────────────────────── */
+.card-number {
+  font-family: 'Instrument Serif', serif;
+  font-size: 4rem;
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(255,255,255,0.06);
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.35s ease;
+}
+.glass-card:hover .card-number {
+  color: rgba(255,255,255,0.12);
+}
+
+/* ─── Skill pill ────────────────────────────────────────────────────────────── */
+.skill-pill {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: hsl(var(--foreground));
+  background: rgba(255,255,255,0.06);
+  letter-spacing: 0.02em;
+  transition:
+    background    0.25s ease,
+    border-color  0.25s ease,
+    transform     0.25s ease;
+  cursor: default;
+}
+.skill-pill:hover {
+  background:   rgba(255,255,255,0.13);
+  border-color: rgba(255,255,255,0.30);
+  transform:    translateY(-2px);
+}
