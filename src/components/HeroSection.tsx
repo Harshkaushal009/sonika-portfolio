@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 const phrases = [
   'becomes a story.',
@@ -25,7 +28,7 @@ const HeroSection: React.FC = () => {
     const fullPrefix1 = 'Where '
     const fullPrefix2 = 'every frame'
 
-    let timer: NodeJS.Timeout
+    let timer: ReturnType<typeof setTimeout>
 
     if (prefix1.length < fullPrefix1.length) {
       timer = setTimeout(() => {
@@ -50,7 +53,7 @@ const HeroSection: React.FC = () => {
     const typingSpeed = isDeleting ? 38 : 65
     const pauseTime = isDeleting ? 400 : 3200
 
-    let timeout: NodeJS.Timeout
+    let timeout: ReturnType<typeof setTimeout>
 
     if (!isDeleting && currentText === targetPhrase) {
       // Finished typing word, wait before deleting
